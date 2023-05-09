@@ -1,0 +1,15 @@
+# ignore .env files
+*.env
+
+# ignore .history directory
+.history/
+
+# omit .env files
+client/.env
+server/.env
+
+
+# omit other files and folders
+node_modules
+build
+.DS_Store
