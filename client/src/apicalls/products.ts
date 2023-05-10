@@ -32,6 +32,15 @@ export const EditProducts = async (id: string, payload: FormValues) => {
   }
 };
 
+export const GetProductById = async (id: string) => {
+  try {
+    const response = await axiosInstance.get(`/api/product/${id}`);
+    return response.data;
+  } catch (error) {
+    return (error as Error).message;
+  }
+};
+
 export const DeleteProduct = async (id: string) => {
   try {
     const response = await axiosInstance.delete(`api/delete-product/${id}`);

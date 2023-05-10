@@ -54,6 +54,27 @@ router.post("/get-all-products", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/product/:id", async function (req: Request, res: Response) {
+  try {
+    const productId = req.params.id;
+    const product = await Product.findById(productId).populate(
+      "seller",
+      "name email"
+    );
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found." });
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "Product fetched succesfully", product });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error." });
+  }
+});
 
 router.put("/edit-product/:id", async function (req: Request, res: Response) {
   try {
@@ -67,6 +88,8 @@ router.put("/edit-product/:id", async function (req: Request, res: Response) {
       .json({ success: false, error: "Internal server error." });
   }
 });
+
+
 
 
 router.delete(

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Upload, Button, UploadFile, message } from "antd";
 import { useDispatch } from "react-redux";
 import { SetLoader } from "../redux/loadersSlice";
-import { UploadProductImg } from "../apicalls/products";
+import { EditProducts, UploadProductImg } from "../apicalls/products";
+import { AiFillDelete } from "react-icons/ai";
 
 const Images = ({ selectedProduct, getData, setShowProductsForm }: any) => {
   const [showPreview, setShowPreview] = useState(true);
@@ -35,15 +36,38 @@ const Images = ({ selectedProduct, getData, setShowProductsForm }: any) => {
     }
   };
 
+  const deleteImage = async (image: string) => {
+    try {
+      const updatedImagesArray = images.filter((img: string) => img !== image);
+      const updatedProduct = { ...selectedProduct, images: updatedImagesArray };
+      dispatch(SetLoader(true));
+      const response = await EditProducts(selectedProduct._id, updatedProduct);
+      if (response.success) {
+        message.success(response.message);
+        setImages(updatedImagesArray);
+        getData();
+      }
+    } catch (error) {
+      message.error((error as Error).message);
+    } finally {
+      dispatch(SetLoader(false));
+    }
+  };
+
   return (
     <div>
       <div className="flex gap-5 mb-5">
-        {images.map((image: any) => (
-          <div className="flex gap-2 border-solid border-gray-500 rounded">
+        {images.map((image: string) => (
+          <div className="flex gap-2 border-solid border-gray-500 rounded relative">
             <img
               className="h-20 w-20 object-cover"
               src={image}
               alt=""
+            />
+            <AiFillDelete
+              title="delete image"
+              className="absolute top-1 right-1 text-white text-lg hover:scale-110 cursor-pointer transition-all"
+              onClick={() => deleteImage(image)}
             />
           </div>
         ))}
