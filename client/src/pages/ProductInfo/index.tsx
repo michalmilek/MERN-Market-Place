@@ -1,4 +1,13 @@
-import { Carousel, Divider, message } from "antd";
+import {
+  Button,
+  Carousel,
+  Divider,
+  message,
+  Card,
+  Typography,
+  Input,
+  Checkbox,
+} from "antd";
 import { CarouselProps, CarouselRef } from "antd/es/carousel";
 import React, {
   useState,
@@ -7,13 +16,67 @@ import React, {
   useRef,
   MutableRefObject,
 } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { GetProductById } from "../../apicalls/products";
+import { GetAllBids, GetProductById } from "../../apicalls/products";
 import { SetLoader } from "../../redux/loadersSlice";
 import moment from "moment";
+import BidModal from "../../components/BidModal";
+import { RootState } from "../../redux/store";
 
-interface Product {
+interface AuctionBid {
+  _id: string;
+  seller: {
+    _id: string;
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+    status: string;
+    profilePicture: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+  buyer: {
+    _id: string;
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+    status: string;
+    profilePicture: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+  product: {
+    _id: string;
+    name: string;
+    description: string;
+    price: string;
+    category: string;
+    age: string;
+    billAvailable: boolean;
+    warrantyAvailable: boolean;
+    accessoriesAvailable: boolean;
+    boxAvailable: boolean;
+    images: string[];
+    seller: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+  bidAmount: number;
+  message: string;
+  mobile: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface Product {
   _id: string;
   name: string;
   description: string;
@@ -28,20 +91,27 @@ interface Product {
   seller: {
     name: string;
     email: string;
+    _id: string;
   };
   status: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
+  bids: AuctionBid[];
 }
 
 const ProductInfo = () => {
+  const [showAddNewBid, setShowAddNewBid] = useState(false);
   const [product, setProduct] = useState<Product | null>(null);
+  console.log("🚀 ~ product:", product);
   const [selectedImgIndex, setSelectedImgIndex] = useState(0);
+  const [showBids, setShowBids] = useState(true);
   const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => (state as any).users);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const carouselRef = useRef<CarouselRef>(null);
+  const { Text } = Typography;
 
   /* const handleGetProduct = async (productId: string) => {
     try {
@@ -65,9 +135,8 @@ const ProductInfo = () => {
       if (id) {
         const response = await GetProductById(id);
         if (response.success) {
-          setProduct(response.product);
-          dispatch(SetLoader(false));
-          message.success(response.message);
+          const bidsResponse = await GetAllBids({ product: id });
+          setProduct({ ...response.product, bids: bidsResponse.data });
         }
       }
     } catch (error) {
@@ -94,13 +163,18 @@ const ProductInfo = () => {
               className="w-96"
               ref={carouselRef}>
               {product.images.map((image, index) => (
-                <div key={index}>
+                <a
+                  title="Click to open page in new card"
+                  key={index}
+                  href={image}
+                  target="_blank"
+                  rel="noopener noreferrer">
                   <img
                     className="w-96 h-96 object-cover rounded-md cursor-pointer hover:opacity-80 transition-all"
                     src={image}
                     alt=""
                   />
-                </div>
+                </a>
               ))}
             </Carousel>
             <div className="flex flex-wrap gap-5 max-w-[384px]">
@@ -199,6 +273,72 @@ const ProductInfo = () => {
                   {moment(product.updatedAt).format("DD.MM.YYYY HH:mm:ss")}
                 </span>
               </div>
+            </div>
+            <Divider className="border-gray-300" />
+            <div className="flex flex-col gap-2">
+              <div className="flex justify-between">
+                <h1 className="text-primary text-2xl font-semibold uppercase mb-4">
+                  Bids
+                </h1>
+                <div className="flex items-center gap-4">
+                  <Checkbox
+                    checked={showBids}
+                    onChange={() => setShowBids((prev) => !prev)}>
+                    {showBids ? "Hide bids" : "Show bids"}
+                  </Checkbox>
+                  <Button
+                    disabled={user._id === product.seller._id}
+                    onClick={() => setShowAddNewBid(true)}
+                    title={
+                      user._id === product.seller._id
+                        ? "You cant buy your product"
+                        : undefined
+                    }
+                    type="dashed">
+                    New bid
+                  </Button>
+                </div>
+              </div>
+              {showAddNewBid && (
+                <BidModal
+                  product={product}
+                  getData={getData}
+                  showAddNewBid={showAddNewBid}
+                  setShowAddNewBid={setShowAddNewBid}
+                />
+              )}
+              {product.bids.length !== 0 && showBids && (
+                <div className="flex flex-col gap-3 max-h-[400px] overflow-y-scroll p-4 border border-gray-200 border-solid shadow-md">
+                  {product.bids?.map((bid) => {
+                    if (product._id === bid.product._id) {
+                      return (
+                        <Card
+                          className="hover:scale-105 transition-all duration-500 cursor-pointer"
+                          type="inner"
+                          key={bid.createdAt}>
+                          <div className="flex flex-col">
+                            <div className="flex justify-between items-center">
+                              <div className="flex flex-col gap-2">
+                                <Text className="font-bold mb-2">
+                                  {bid.seller.name}
+                                </Text>
+                                <Text className="mb-4">{bid.seller.email}</Text>
+                              </div>
+                              <Text className="text-xl text-green-500 font-bold mb-4">
+                                {bid.bidAmount} $
+                              </Text>
+                            </div>
+                            <Text className="text-gray-500 text-center">
+                              {new Date(bid.createdAt).toLocaleString()}
+                            </Text>
+                          </div>
+                        </Card>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>

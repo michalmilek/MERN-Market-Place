@@ -72,11 +72,11 @@ const Home = () => {
         {products?.map((product) => (
           <Card
             onClick={() => navigate(`/product/${product._id}`)}
-            className="shadow-md cursor-pointer">
+            className="shadow-md cursor-pointer hover:brightness-90 transition-all">
             <img
               src={product.images[0]}
               alt={product.name}
-              className="h-60 w-60 object-cover"
+              className="h-44 w-44 object-cover"
             />
             <div>
               <h1 className="text-lg font-semibold">{product.name}</h1>

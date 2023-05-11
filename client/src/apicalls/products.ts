@@ -73,3 +73,22 @@ export const updateProductStatus = async (id: string, status: string) => {
     return (error as Error).message;
   }
 };
+
+
+export const PlaceNewBid = async (bidData: any) => {
+  try {
+    const response = await axiosInstance.post("/api/place-new-bid", bidData);
+    return response.data;
+  } catch (error) {
+    return (error as Error).message;
+  }
+};
+
+export const GetAllBids = async (filters: any) => {
+  try {
+    const response = await axiosInstance.get("/api/get-all-bids", filters);
+    return response.data;
+  } catch (error) {
+    return (error as Error).message;
+  }
+};

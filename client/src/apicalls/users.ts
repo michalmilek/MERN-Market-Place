@@ -55,3 +55,4 @@ export const UpdateUserStatus = async (id: string, status: string) => {
     return (error as Error).message;
   }
 };
+

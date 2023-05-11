@@ -6,10 +6,14 @@ import { SetLoader } from "../../../redux/loadersSlice";
 import ProductsForm, { FormValues } from "./ProductsForm";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { RootState } from "../../../redux/store";
+import { BiDollar } from "react-icons/bi";
+import Bids from "../../../components/Bids";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [showProductsForm, setShowProductsForm] = useState(false);
+  const [showBids, setShowBids] = useState(false);
+  const [bids, setBids] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState<null | FormValues>(
     null
   );
@@ -99,6 +103,14 @@ const Products = () => {
                 setShowProductsForm(true);
               }}
             />
+            <BiDollar
+              onClick={() => {
+                setSelectedProduct(record);
+                setShowBids(true);
+              }}
+              title="Show bids"
+              className="cursor-pointer"
+            />
           </div>
         );
       },
@@ -134,6 +146,13 @@ const Products = () => {
           selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct}
           getData={getData}
+        />
+      )}
+      {showBids && (
+        <Bids
+          showBids={showBids}
+          setShowBids={setShowBids}
+          selectedProduct={selectedProduct}
         />
       )}
     </div>

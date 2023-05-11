@@ -44,7 +44,11 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       {user && (
         <div>
           <div className="flex justify-between items-center bg-primary p-5">
-            <h1 className="text-white">MM Market Place</h1>
+            <h1
+              onClick={() => navigate("/")}
+              className="text-white cursor-pointer">
+              MM Market Place
+            </h1>
 
             <div className="bg-white py-2 px-5 flex items-center gap-5 justify-center">
               <div
@@ -71,10 +75,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
 
-          <div className="p-5">
-            {user.name}
-            {children}
-          </div>
+          <div className="p-5">{children}</div>
         </div>
       )}
     </>
