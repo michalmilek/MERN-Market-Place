@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetUser, UserState } from "../redux/usersSlice";
 import { RootState } from "../redux/store";
 import { MdAdminPanelSettings } from "react-icons/md";
+import AppFooter from "./AppFooter";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }, [navigate, token, dispatch]);
 
   return (
-    <>
+    <div className="flex flex-col min-h-[100vh] justify-between">
       {user && (
         <div>
           <div className="flex justify-between items-center bg-primary p-5">
@@ -54,7 +55,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
             <div className="bg-white py-2 px-5 flex items-center gap-5 justify-center">
               {user.role === "admin" && (
                 <Link
-                  className="flex items-center gap-2 cursor-pointer hover:opacity-70 transition-all underline text-black font-medium"
+                  className="flex items-center gap-2 cursor-pointer hover:opacity-70 transition-all underline text-black font-semibold text-[15px]"
                   to={"/admin"}>
                   <MdAdminPanelSettings />
                   ADMIN PANEL
@@ -83,7 +84,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
           <div className="p-5">{children}</div>
         </div>
       )}
-    </>
+      <AppFooter />
+    </div>
   );
 };
 

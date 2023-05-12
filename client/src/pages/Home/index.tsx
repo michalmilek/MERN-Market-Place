@@ -6,7 +6,7 @@ import { getAllProducts, GetProducts } from "../../apicalls/products";
 import Filters from "../../components/Filters";
 import { SetLoader } from "../../redux/loadersSlice";
 import { RootState } from "../../redux/store";
-import { BsFilterLeft } from "react-icons/bs";
+import { BsFilterLeft, BsFilterRight } from "react-icons/bs";
 
 interface ISeller {
   _id: string;
@@ -41,15 +41,16 @@ interface IProduct {
 }
 
 interface Filters2 {
-  status: string;
-  category?: string;
-  age?: string[];
+  status?: string;
+  category?: string[];
+  age?: number[];
+  productName?: string;
 }
 
 const Home = () => {
   const [showFilters, setShowFilters] = useState(true);
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [filters, setFilters] = useState<any>({
+  const [filters, setFilters] = useState<Filters2>({
     status: "approved",
   });
   const [inputValue, setInputValue] = useState("");
@@ -76,60 +77,65 @@ const Home = () => {
   }, [getData, filters]);
 
   return (
-    <div className={`flex ${!showFilters && "flex-col"} gap-5`}>
-      {!showFilters && (
-        <div className="flex items-center">
-          <Button
-            onClick={() => setShowFilters(true)}
-            className="hover:opacity-75 cursor-pointer transition-all"
-            type="ghost">
+    <div className="flex flex-col gap-5">
+      <div className="flex items-center">
+        <Button
+          onClick={() => setShowFilters(!showFilters)}
+          className="hover:opacity-75 cursor-pointer transition-all"
+          type="ghost">
+          {showFilters ? (
             <BsFilterLeft className="text-xl" />
-          </Button>
-          <Input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="w-full"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                setFilters({ ...filters, productName: inputValue });
-              }
-            }}
-          />
-        </div>
-      )}
-      {showFilters && (
-        <Filters
-          filters={filters}
-          setFilters={setFilters}
-          setShowFilters={setShowFilters}
+          ) : (
+            <BsFilterRight className="text-xl" />
+          )}
+        </Button>
+        <Input
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          className="w-full"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setFilters({ ...filters, productName: inputValue });
+            }
+          }}
         />
-      )}
-      <div
-        className={`grid ${showFilters ? "grid-cols-4" : "grid-cols-5"} gap-8`}>
-        {products?.map((product) => {
-          if (product.status === filters.status) {
-            return (
-              <Card
-                onClick={() => navigate(`/product/${product._id}`)}
-                className="shadow-md max-h-[350px] max-w-[250px] cursor-pointer hover:brightness-90 transition-all">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="h-44 w-44 object-cover"
-                />
-                <div>
-                  <h1 className="text-lg font-semibold">{product.name}</h1>
-                  <p className="text-sm text-gray-500">{product.description}</p>
-                  <Divider />
-                  <span className="text-green-500 font-bold">
-                    {product.price}$
-                  </span>
-                </div>
-              </Card>
-            );
-          }
-          return null;
-        })}
+      </div>
+      <div className="flex gap-10">
+        {showFilters && (
+          <Filters
+            filters={filters}
+            setFilters={setFilters}
+            setShowFilters={setShowFilters}
+          />
+        )}
+        <div className="grid grid-cols-4 gap-8">
+          {products?.map((product) => {
+            if (product.status === filters.status) {
+              return (
+                <Card
+                  onClick={() => navigate(`/product/${product._id}`)}
+                  className="shadow-md max-h-[350px] max-w-[250px] cursor-pointer hover:brightness-90 transition-all">
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="h-44 w-44 object-cover"
+                  />
+                  <div>
+                    <h1 className="text-lg font-semibold">{product.name}</h1>
+                    <p className="text-sm text-gray-500">
+                      {product.description}
+                    </p>
+                    <Divider />
+                    <span className="text-green-500 font-bold">
+                      {product.price}$
+                    </span>
+                  </div>
+                </Card>
+              );
+            }
+            return null;
+          })}
+        </div>
       </div>
     </div>
   );
