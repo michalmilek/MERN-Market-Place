@@ -1,12 +1,13 @@
-import { message } from "antd";
+import { Anchor, message } from "antd";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GetCurrentUser } from "../apicalls/users";
 import { ImUser } from "react-icons/im";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { SetUser, UserState } from "../redux/usersSlice";
 import { RootState } from "../redux/store";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -51,13 +52,17 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
             </h1>
 
             <div className="bg-white py-2 px-5 flex items-center gap-5 justify-center">
+              {user.role === "admin" && (
+                <Link
+                  className="flex items-center gap-2 cursor-pointer hover:opacity-70 transition-all underline text-black font-medium"
+                  to={"/admin"}>
+                  <MdAdminPanelSettings />
+                  ADMIN PANEL
+                </Link>
+              )}
               <div
                 onClick={() => {
-                  if (user.role === "user") {
-                    navigate("/profile");
-                  } else {
-                    navigate("/admin");
-                  }
+                  navigate("/profile");
                 }}
                 className="flex items-center gap-1 cursor-pointer group">
                 <ImUser className="group-hover:opacity-70 transition-all" />

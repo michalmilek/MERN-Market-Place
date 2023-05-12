@@ -1,7 +1,11 @@
 import { message, Modal, Table } from "antd";
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { GetAllBids, GetProductById } from "../apicalls/products";
+import {
+  GetAllBids,
+  GetAllBidsForProduct,
+  GetProductById,
+} from "../apicalls/products";
 import { FormValues } from "../pages/Profile/Products/ProductsForm";
 import { SetLoader } from "../redux/loadersSlice";
 import moment from "moment";
@@ -14,16 +18,13 @@ interface Props {
 
 const Bids = ({ setShowBids, showBids, selectedProduct }: Props) => {
   const [bidsData, setBidsData] = React.useState([]);
-  console.log("🚀 ~ bidsData:", bidsData);
   const dispatch = useDispatch();
 
-  const getData = React.useCallback(async () => {
+  const getData = useCallback(async () => {
     try {
       dispatch(SetLoader(true));
       if (selectedProduct) {
-        const bidsResponse = await GetAllBids({
-          product: selectedProduct._id,
-        });
+        const bidsResponse = await GetAllBidsForProduct(selectedProduct._id);
         setBidsData(bidsResponse.data);
       }
     } catch (error) {
@@ -48,6 +49,7 @@ const Bids = ({ setShowBids, showBids, selectedProduct }: Props) => {
     {
       title: "Bid Amount",
       dataIndex: "bidAmount",
+      render: (text: string, record: any) => record.bidAmount + "$",
     },
     {
       title: "bid Date",

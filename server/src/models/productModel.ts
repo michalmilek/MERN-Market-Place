@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     price: {
-      type: String,
+      type: Number,
       required: true,
     },
     category: {
@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     age: {
-      type: String,
+      type: Number,
       required: true,
     },
     billAvailable: {

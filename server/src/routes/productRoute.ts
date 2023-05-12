@@ -10,8 +10,8 @@ import mongoose from 'mongoose'
 
 interface Filters {
   seller?: string;
+  status?: string;
 }
-
 
 router.post("/add-product", async function (req: Request, res: Response) {
   try {
@@ -23,7 +23,7 @@ router.post("/add-product", async function (req: Request, res: Response) {
       product: newProduct,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(400).json({
       success: false,
       message: (error as Error).message,
@@ -33,14 +33,29 @@ router.post("/add-product", async function (req: Request, res: Response) {
 
 router.post("/get-all-products", async (req: Request, res: Response) => {
   try {
-    const { seller, categories = [], age = [] } = req.body;
-    let filters: Filters = {};
-    if (seller) {
-      filters.seller = seller;
+    const { status, category, age, productName } = req.body;
+
+    const query = Product.find().populate("seller");
+
+    if (status) {
+      query.where("status").equals(status);
     }
-    const products = await Product.find(filters)
-      .populate("seller")
-      .sort({ createdAt: -1 });
+
+    if (category && category.length > 0) {
+      query.where("category").in(category);
+    }
+
+    if (age && age.length > 0) {
+      const [minAge, maxAge] = age;
+      query.where("age").gte(minAge).lte(maxAge);
+    }
+
+    if (productName) {
+      query.where("name").regex(new RegExp(productName, "i"));
+    }
+
+    const products = await query.sort({ createdAt: -1 });
+
     res.status(200).json({
       success: true,
       data: products,
@@ -53,6 +68,9 @@ router.post("/get-all-products", async (req: Request, res: Response) => {
     });
   }
 });
+
+
+
 
 router.get("/product/:id", async function (req: Request, res: Response) {
   try {

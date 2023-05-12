@@ -23,6 +23,16 @@ export const GetProducts = async (filters?: Filters) => {
   }
 };
 
+export const getAllProducts = async (filters: any) => {
+  try {
+    const response = await axiosInstance.post("/api/get-all-products", filters);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Internal Server Error");
+  }
+};
+
 export const EditProducts = async (id: string, payload: FormValues) => {
   try {
     const response = await axiosInstance.put(`api/edit-product/${id}`, payload);
@@ -74,7 +84,6 @@ export const updateProductStatus = async (id: string, status: string) => {
   }
 };
 
-
 export const PlaceNewBid = async (bidData: any) => {
   try {
     const response = await axiosInstance.post("/api/place-new-bid", bidData);
@@ -92,3 +101,16 @@ export const GetAllBids = async (filters: any) => {
     return (error as Error).message;
   }
 };
+
+export const GetAllBidsForProduct = async (product: any) => {
+  try {
+    const response = await axiosInstance.get(
+      `/api/get-all-bids-for-product?product=${product}`
+    );
+    return response.data;
+  } catch (error) {
+    return (error as Error).message;
+  }
+};
+
+

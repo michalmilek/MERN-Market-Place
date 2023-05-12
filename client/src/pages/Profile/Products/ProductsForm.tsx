@@ -59,9 +59,15 @@ const accessories = [
 const validationSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   description: yup.string().required("Description is required"),
-  price: yup.string().required("Price is required"),
+  price: yup
+    .number()
+    .required("Price is required")
+    .min(0, "Price must be positive"),
   category: yup.string().required("Category is required"),
-  age: yup.string().required("Age is required"),
+  age: yup
+    .number()
+    .required("Number is required")
+    .min(0, "Age must be positive"),
 });
 
 const ProductsForm = ({
@@ -220,6 +226,7 @@ const ProductsForm = ({
               }>
               <Input
                 name="price"
+                type="number"
                 value={formik.values.price}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -266,6 +273,7 @@ const ProductsForm = ({
             >
               <Input
                 name="age"
+                type="number"
                 value={formik.values.age}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

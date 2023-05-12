@@ -18,7 +18,11 @@ import React, {
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { GetAllBids, GetProductById } from "../../apicalls/products";
+import {
+  GetAllBids,
+  GetAllBidsForProduct,
+  GetProductById,
+} from "../../apicalls/products";
 import { SetLoader } from "../../redux/loadersSlice";
 import moment from "moment";
 import BidModal from "../../components/BidModal";
@@ -135,7 +139,7 @@ const ProductInfo = () => {
       if (id) {
         const response = await GetProductById(id);
         if (response.success) {
-          const bidsResponse = await GetAllBids({ product: id });
+          const bidsResponse = await GetAllBidsForProduct(id);
           setProduct({ ...response.product, bids: bidsResponse.data });
         }
       }
@@ -209,7 +213,11 @@ const ProductInfo = () => {
               </h1>
               <div className="flex justify-between">
                 <span>Price:</span>
-                <span className="font-normal">{product.price}</span>
+                <span className="font-normal">{product.price}$</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Age:</span>
+                <span className="font-normal">{product.age}</span>
               </div>
               <div className="flex justify-between">
                 <span>Category:</span>

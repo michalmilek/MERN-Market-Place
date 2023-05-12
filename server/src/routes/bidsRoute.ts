@@ -55,4 +55,27 @@ router.get(
   }
 );
 
+
+router.get(
+  "/get-all-bids-for-product",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const { product } = req.query;
+      const bids = await Bid.find({ product: product })
+        .populate("product")
+        .populate("buyer")
+        .populate("seller")
+        .sort({ bidAmount: -1 });
+      res.status(200).json({ success: true, data: bids });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  }
+);
+
+
 module.exports = router;
