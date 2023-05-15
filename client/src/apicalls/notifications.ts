@@ -69,3 +69,19 @@ export const MarkNotificationAsRead = async (
     );
   }
 };
+
+export const MarkNotificationAsUnread = async (
+  notificationId: string,
+  userId: string
+) => {
+  try {
+    const response = await axiosInstance.patch(
+      `/api/notifications/${notificationId}/mark-as-unread?userId=${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      (error as any).response?.data?.message || "Internal Server Error"
+    );
+  }
+};

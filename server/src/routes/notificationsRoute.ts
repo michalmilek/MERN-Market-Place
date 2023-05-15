@@ -134,4 +134,39 @@ router.patch(
   }
 );
 
+
+router.patch(
+  "/notifications/:id/mark-as-unread",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const notification = await Notification.findOne({
+        _id: req.params.id,
+        user: req.query.userId,
+      });
+
+      if (!notification) {
+        return res.status(404).json({
+          success: false,
+          message: "Notification not found",
+        });
+      }
+
+      notification.seen = false;
+      await notification.save();
+
+      res.status(200).json({
+        success: true,
+        message: "Notification has been marked as unread.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      });
+    }
+  }
+);
+
 module.exports = router;
