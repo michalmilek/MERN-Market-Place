@@ -30,7 +30,7 @@ const Filters = ({ showFilters, setShowFilters, filters, setFilters }: any) => {
   };
 
   return (
-    <div className="w-80 flex flex-col gap-6 h-screen">
+    <div className="w-80 flex flex-col gap-6 h-screen items-start max-h-[450px]">
       <div className="flex justify-between items-center">
         <h1>Filters</h1>
         <Button

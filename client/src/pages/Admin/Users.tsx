@@ -1,4 +1,4 @@
-import { message, Table } from "antd";
+import { Breakpoint, message, Table } from "antd";
 import React, { useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { GetAllUsers, UpdateUserStatus } from "../../apicalls/users";
@@ -46,17 +46,27 @@ const Users = () => {
   }, [getData]);
 
   const columns = [
-    { title: "Name", dataIndex: "name" },
-    { title: "Email", dataIndex: "email" },
+    {
+      title: "Name",
+      dataIndex: "name",
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
+    },
     {
       title: "Role",
       dataIndex: "role",
       render: (text: any, record: any) => record.role.toUpperCase(),
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
     },
     {
       title: "Status",
       dataIndex: "status",
       render: (text: any, record: any) => record.status.toUpperCase(),
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
     },
     {
       title: "Created on",
@@ -73,6 +83,7 @@ const Users = () => {
         });
         return formattedDate;
       },
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
     },
     {
       title: "Action",
@@ -97,12 +108,14 @@ const Users = () => {
           </div>
         );
       },
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
     },
   ];
 
   return (
-    <div>
+    <div className="pr-4 md:pr-0">
       <Table
+        className="text-[10px] md:text-[16px]"
         columns={columns}
         dataSource={users}
       />

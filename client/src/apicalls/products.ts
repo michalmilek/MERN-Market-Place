@@ -5,6 +5,16 @@ interface Filters {
   seller: string;
 }
 
+
+export interface ProductQuery {
+  status?: string;
+  category?: string[];
+  age?: [number, number];
+  productName?: string;
+  sellerId?: string;
+  [key: string]: any;
+}
+
 export const AddProduct = async (payload: FormValues) => {
   try {
     const response = await axiosInstance.post("/api/add-product", payload);
@@ -23,7 +33,7 @@ export const GetProducts = async (filters?: Filters) => {
   }
 };
 
-export const getAllProducts = async (filters: any) => {
+export const getAllProducts = async (filters: ProductQuery) => {
   try {
     const response = await axiosInstance.post("/api/get-all-products", filters);
     return response.data;

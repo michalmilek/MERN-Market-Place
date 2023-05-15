@@ -1,4 +1,4 @@
-import { Button, message, Table } from "antd";
+import { Breakpoint, Button, message, Table } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetProducts, updateProductStatus } from "../../apicalls/products";
@@ -65,6 +65,7 @@ const Products = () => {
     {
       title: "Product",
       dataIndex: "name",
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
     },
     {
       title: "Seller",
@@ -72,15 +73,25 @@ const Products = () => {
       render: (text: any, record: any) => {
         return record.seller.name;
       },
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
     },
-    { title: "Description", dataIndex: "description" },
-    { title: "Price", dataIndex: "price" },
-    { title: "Category", dataIndex: "category" },
-    { title: "Age", dataIndex: "age" },
+    {
+      title: "Description",
+      dataIndex: "description",
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
+    },
+    { title: "Price", dataIndex: "price", responsive: ["lg"] as Breakpoint[] },
+    {
+      title: "Category",
+      dataIndex: "category",
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
+    },
+    { title: "Age", dataIndex: "age", responsive: ["lg"] as Breakpoint[] },
     {
       title: "Status",
       dataIndex: "status",
       render: (text: any, record: any) => record.status.toUpperCase(),
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
     },
     {
       title: "Added on",
@@ -97,6 +108,7 @@ const Products = () => {
         });
         return formattedDate;
       },
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
     },
     {
       title: "Action",
@@ -137,6 +149,7 @@ const Products = () => {
           </div>
         );
       },
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
     },
   ];
 

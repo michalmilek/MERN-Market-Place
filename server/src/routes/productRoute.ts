@@ -1,12 +1,9 @@
 import {Request, Response} from 'express'
 const router = require('express').Router()
-const Product = require('../models/productModel')
-const User = require("../models/userModel");
-const authMiddleware = require('../middlewares/authMiddleware')
-const cloudinary = require('../config/cloudinaryConfig')
-import multer from 'multer'
-import mongoose from 'mongoose'
-
+const Product = require("../models/productModel");
+const authMiddleware = require("../middlewares/authMiddleware");
+const cloudinary = require("../config/cloudinaryConfig");
+import multer from "multer";
 
 interface Filters {
   seller?: string;
@@ -33,9 +30,9 @@ router.post("/add-product", async function (req: Request, res: Response) {
 
 router.post("/get-all-products", async (req: Request, res: Response) => {
   try {
-    const { status, category, age, productName } = req.body;
+    const { status, category, age, productName, sellerId } = req.body;
 
-    const query = Product.find().populate("seller");
+    const query = Product.find();
 
     if (status) {
       query.where("status").equals(status);
@@ -54,7 +51,11 @@ router.post("/get-all-products", async (req: Request, res: Response) => {
       query.where("name").regex(new RegExp(productName, "i"));
     }
 
-    const products = await query.sort({ createdAt: -1 });
+    if (sellerId) {
+      query.where("seller").equals(sellerId);
+    }
+
+    const products = await query.sort({ createdAt: -1 }).populate("seller");
 
     res.status(200).json({
       success: true,

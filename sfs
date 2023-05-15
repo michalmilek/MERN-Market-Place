@@ -1,0 +1,41 @@
+[33mcommit 1b1a678f9241cc292592df2636f14fca4f53b8af[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: michalmilek <mmilek1337@gmail.com>
+Date:   Fri May 12 04:02:27 2023 +0200
+
+    feat(footer): Footer added
+
+[33mcommit 2acb608fc38e61e6daff34d39e20bc4166af63c5[m
+Author: michalmilek <mmilek1337@gmail.com>
+Date:   Fri May 12 03:46:06 2023 +0200
+
+    feat(filters, searchbar): Added searchbar and filters
+
+[33mcommit f038d9dadad1f080cb1358946e4c54374ff53fca[m
+Author: michalmilek <mmilek1337@gmail.com>
+Date:   Thu May 11 12:49:39 2023 +0200
+
+    feat(bids): Bids feature added
+
+[33mcommit 797f1c03eec40bc06ed847da8b8610567f1c9655[m
+Author: michalmilek <mmilek1337@gmail.com>
+Date:   Wed May 10 03:36:16 2023 +0200
+
+    feat(Product): Added product site for every product
+
+[33mcommit 056a66bfa579a96ac9f15a41802ad2a54376762f[m
+Author: michalmilek <mmilek1337@gmail.com>
+Date:   Tue May 9 02:54:01 2023 +0200
+
+    feat(client): Client added to a github repository as a sobmodule
+
+[33mcommit cf1b1ba2ee6be51a38f189d60ca6555730880073[m
+Author: michalmilek <mmilek1337@gmail.com>
+Date:   Tue May 9 02:34:52 2023 +0200
+
+    feat(client): Client added to main directory
+
+[33mcommit 0f5d2050b545c8edef53a5230a7bc9f8f5d7de93[m
+Author: michalmilek <mmilek1337@gmail.com>
+Date:   Tue May 9 02:18:12 2023 +0200
+
+    feat(lateInitialRep): late initial rep

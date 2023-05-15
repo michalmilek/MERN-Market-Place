@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetLoader } from "../redux/loadersSlice";
 import { PlaceNewBid } from "../apicalls/products";
 import { RootState } from "../redux/store";
+import { AddNotification } from "../apicalls/notifications";
 
 interface Props {
   product: Product;
@@ -65,6 +66,12 @@ const BidModal = ({
       });
       if (response.success) {
         message.success(response.message);
+        await AddNotification({
+          title: "New bid has been placed",
+          message: `A new bid has been placed on your product ${product.name} by ${user.name} for ${values.bidAmount}$`,
+          user: product.seller._id,
+          onClick: `/product/${product._id}`,
+        });
         getData();
       } else {
         throw new Error("Server error");

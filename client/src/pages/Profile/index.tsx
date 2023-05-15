@@ -1,6 +1,7 @@
 import React from "react";
 import { Tabs } from "antd";
 import Products from "./Products";
+import BidsUser from "../../components/BidsUser";
 
 const Profile = () => {
   return (
@@ -15,6 +16,7 @@ const Profile = () => {
           tab="Bids"
           key="2">
           <h1>Bids</h1>
+          <BidsUser />
         </Tabs.TabPane>
         <Tabs.TabPane
           tab="General"

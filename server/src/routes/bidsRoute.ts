@@ -78,4 +78,54 @@ router.get(
 );
 
 
+router.get(
+  "/get-all-user-bids",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const userId = req.query.userId;
+      const bids = await Bid.find({ buyer: userId })
+        .populate("product")
+        .populate("buyer")
+        .populate("seller")
+        .sort({ createdAt: -1 });
+      res.status(200).json({ success: true, data: bids });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  }
+);
+
+router.delete(
+  "/delete-bid/:bidId",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    try {
+      const bidId = req.params.bidId as string;
+      const bid = await Bid.findByIdAndDelete(bidId);
+      if (!bid) {
+        return res.status(404).json({
+          success: false,
+          message: "Bid not found",
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: "Bid deleted successfully",
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  }
+);
+
+
+
+
 module.exports = router;

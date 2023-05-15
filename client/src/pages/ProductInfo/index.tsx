@@ -159,7 +159,7 @@ const ProductInfo = () => {
   return (
     <div className="overflow-x-hidden">
       {product && (
-        <div className="grid grid-cols-2">
+        <div className="flex flex-col gap-4 md:gap-0 md:grid md:grid-cols-2">
           <div className="flex flex-col gap-10">
             <Carousel
               arrows
@@ -174,7 +174,7 @@ const ProductInfo = () => {
                   target="_blank"
                   rel="noopener noreferrer">
                   <img
-                    className="w-96 h-96 object-cover rounded-md cursor-pointer hover:opacity-80 transition-all"
+                    className="w-40 h-40 sm:w-60 sm:h-60 lg:w-96 lg:h-96 object-cover rounded-md cursor-pointer hover:opacity-80 transition-all"
                     src={image}
                     alt=""
                   />
@@ -288,7 +288,7 @@ const ProductInfo = () => {
                 <h1 className="text-primary text-2xl font-semibold uppercase mb-4">
                   Bids
                 </h1>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col-reverse md:flex-row items-center gap-2 md:gap-4">
                   <Checkbox
                     checked={showBids}
                     onChange={() => setShowBids((prev) => !prev)}>
@@ -328,9 +328,9 @@ const ProductInfo = () => {
                             <div className="flex justify-between items-center">
                               <div className="flex flex-col gap-2">
                                 <Text className="font-bold mb-2">
-                                  {bid.seller.name}
+                                  {bid.buyer.name}
                                 </Text>
-                                <Text className="mb-4">{bid.seller.email}</Text>
+                                <Text className="mb-4">{bid.buyer.email}</Text>
                               </div>
                               <Text className="text-xl text-green-500 font-bold mb-4">
                                 {bid.bidAmount} $

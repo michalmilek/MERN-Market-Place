@@ -37,6 +37,16 @@ table {
   border: 1px solid #8d8d8d !important;
 }
 
+.slick-dots li button:before {
+  font-size: 20px;
+}
+
+@media (max-width: 640px) {
+  .ant-table td, .ant-table th {
+    font-size: 11px;
+  }
+}
+
 
      @layer base {
         input[type='number']::-webkit-outer-spin-button,

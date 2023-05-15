@@ -1,7 +1,11 @@
-import { Button, message, Table } from "antd";
+import { Breakpoint, Button, message, Table } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteProduct, GetProducts } from "../../../apicalls/products";
+import {
+  DeleteProduct,
+  getAllProducts,
+  GetProducts,
+} from "../../../apicalls/products";
 import { SetLoader } from "../../../redux/loadersSlice";
 import ProductsForm, { FormValues } from "./ProductsForm";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
@@ -25,8 +29,8 @@ const Products = () => {
   const getData = useCallback(async () => {
     try {
       dispatch(SetLoader(true));
-      const response = await GetProducts({
-        seller: user._id,
+      const response = await getAllProducts({
+        sellerId: user._id,
       });
       if (response.success) {
         console.log(response);
@@ -60,12 +64,25 @@ const Products = () => {
     {
       title: "Name",
       dataIndex: "name",
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
     },
-    { title: "Description", dataIndex: "description" },
-    { title: "Price", dataIndex: "price" },
-    { title: "Category", dataIndex: "category" },
-    { title: "Age", dataIndex: "age" },
-    { title: "Status", dataIndex: "status" },
+    {
+      title: "Description",
+      dataIndex: "description",
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
+    },
+    { title: "Price", dataIndex: "price", responsive: ["lg"] as Breakpoint[] },
+    {
+      title: "Category",
+      dataIndex: "category",
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
+    },
+    { title: "Age", dataIndex: "age", responsive: ["lg"] as Breakpoint[] },
+    {
+      title: "Status",
+      dataIndex: "status",
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
+    },
     {
       title: "Added on",
       dataIndex: "createdAt",
@@ -81,6 +98,7 @@ const Products = () => {
         });
         return formattedDate;
       },
+      responsive: ["sm", "md", "lg"] as Breakpoint[],
     },
     {
       title: "Action",
@@ -114,6 +132,7 @@ const Products = () => {
           </div>
         );
       },
+      responsive: ["xs", "sm", "md", "lg"] as Breakpoint[],
     },
   ];
 
@@ -123,7 +142,7 @@ const Products = () => {
 
   return (
     <div>
-      <div className="flex justify-end mb-8">
+      <div className="flex justify-end mb-8 pr-4 md:pr-0">
         <Button
           type="default"
           onClick={() => {
