@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: "https://server-acfl.onrender.com",
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
