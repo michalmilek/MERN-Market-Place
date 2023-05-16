@@ -316,7 +316,7 @@ const ProductInfo = () => {
                 />
               )}
               {product.bids.length !== 0 && showBids && (
-                <div className="flex flex-col gap-3 max-h-[400px] overflow-y-scroll p-4 border border-gray-200 border-solid shadow-md">
+                <div className="flex flex-col gap-3 overflow-x-hidden max-h-[400px] overflow-y-scroll p-4 border border-gray-200 border-solid shadow-md">
                   {product.bids?.map((bid) => {
                     if (product._id === bid.product._id) {
                       return (
