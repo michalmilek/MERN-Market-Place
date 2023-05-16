@@ -1,0 +1,22 @@
+services:
+  - name: server
+    env:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8000
+      - key: MONGO_URL
+        value: "mongodb+srv://mmilek1337:G0ld1se665@cluster0.v3qrzwl.mongodb.net/marketPlace?retryWrites=true&w=majority"
+      - key: jwt_secret
+        value: "3d920a659daae939ac1d11858701c1b007c44232430becba8eff0e2ed5b42e738a9a89d81fc26c1a4b99c3a694f97fe0456dc6b24ea35bb3e3d45bb76de183ed"
+      - key: jwt_secret_refresh
+        value: "f9e5d7f3ec06e1953d91012dc152e9197ad319a3481111086e925f75a76f8c94acbb71af674091523c6c09b2cfafff868d419ea0ed29c19a04ff06494993e8c0"
+      - key: cloud_name
+        value: "ddqtndb4g"
+      - key: cloud_api_key
+        value: "631313779569815"
+      - key: cloud_api_secret
+        value: "zoV4w1f-wIIBsOtXqvdGHrTNz6Y"
+      - key: CLOUDINARY_URL
+        value: "cloudinary://631313779569815:zoV4w1f-wIIBsOtXqvdGHrTNz6Y@ddqtndb4g"
+    startCommand: npm start
