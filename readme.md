@@ -26,3 +26,7 @@
   }
 </p>
 
+<img src="https://github.com/michalmilek/MERN-Market-Place/blob/master/img1.png" />
+<img src="https://github.com/michalmilek/MERN-Market-Place/blob/master/img2.png" />
+<img src="https://github.com/michalmilek/MERN-Market-Place/blob/master/img3.png" />
+<img src="https://github.com/michalmilek/MERN-Market-Place/blob/master/img4.png" />
