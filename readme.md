@@ -3,6 +3,14 @@
 </h2>
 
 <p style="text-align: justify;">
+On render.com, the application is deactivated after a long period of non-use, also it may not currently be working. If you want to see the real version email me, then I will make sure the app works.
+</p>
+
+<p style="text-align: justify;">
+  Server built on Express, authentication with JWT token without refresh. File transfer via Multer and Cloudinary. Token validity is set to one hour. Database on MongoDB. In the client, an API is built for notifications, creating listings, and searching by filters or item name.
+</p>
+
+<p style="text-align: justify;">
   Server built on Express, authentication with JWT token without refresh. File transfer via Multer and Cloudinary. Token validity is set to one hour. Database on MongoDB. In the client, an API is built for notifications, creating listings, and searching by filters or item name.
 </p>
 
